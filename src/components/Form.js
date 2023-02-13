@@ -13,7 +13,6 @@ const Form = (props) => {
     async function getForecast(city) {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}`)
         const data = await response.json()
-        console.log(data)
         return data
     }
 
