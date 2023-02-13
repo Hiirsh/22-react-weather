@@ -6,21 +6,12 @@ const Form = (props) => {
         e.preventDefault();
         const city = e.currentTarget.city.value;
         if (!city) return
-        const { lat, lon } = await getGeoData(city)
-        const forecast = await getForecast(lat, lon)
-        forecast.city = city
+        const forecast = await getForecast(city)
         props.setForecast(forecast)
     }
 
-    async function getGeoData(city) {
-        const response_latlon = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIkey}`)
-        const data_latlon = await response_latlon.json()
-        const { lat, lon } = data_latlon[0]
-        return { lat, lon }
-    }
-
-    async function getForecast(lat, lon) {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`)
+    async function getForecast(city) {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}`)
         const data = await response.json()
         console.log(data)
         return data
