@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Form = () => {
+const Form = (props) => {
     const APIkey = '3ee0113dd38883a3a0012893ae186c58'
     const getCity = async e => {
         e.preventDefault();
@@ -8,7 +8,8 @@ const Form = () => {
         if (!city) return
         const { lat, lon } = await getGeoData(city)
         const forecast = await getForecast(lat, lon)
-        console.log(forecast)
+        forecast.city = city
+        props.setForecast(forecast)
     }
 
     async function getGeoData(city) {
@@ -21,7 +22,8 @@ const Form = () => {
     async function getForecast(lat, lon) {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`)
         const data = await response.json()
-        return data.main
+        console.log(data)
+        return data
     }
 
     return (
